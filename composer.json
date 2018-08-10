@@ -1,0 +1,21 @@
+{
+    "name": "xc25261639/tools",
+    "description": "php工具包",
+    "type": "library",
+    "require": {
+        "php": "^7.1"
+    },
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "xc25261639",
+            "email": "25261639@qq.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "autoload": {
+        "psr-4": {
+            "tools\\": "src/"
+        }
+    }
+}
