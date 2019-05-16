@@ -1,6 +1,6 @@
 {
     "name": "xc25261639/tools",
-    "description": "php工具包",
+    "description": "php sxpay",
     "type": "library",
     "require": {
         "php": "^7.1"
