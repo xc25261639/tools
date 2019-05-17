@@ -1,2 +1,2 @@
 # tools
-php sxpay
+php sxpay composer
