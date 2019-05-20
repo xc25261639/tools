@@ -1,7 +1,7 @@
 <?php
 require_once __DIR__ . '/../vendor/autoload.php';
 
-use Sanxiapay\Pay;
+use tools\Pay;
 $public_key = openssl_pkey_get_public(file_get_contents(dirname(__FILE__).'/sxf_public_key.pem'));
 $private_key = openssl_pkey_get_private(file_get_contents(dirname(__FILE__).'/rsa_private_key.pem'));
 $config = [

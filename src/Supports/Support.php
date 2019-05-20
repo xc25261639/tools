@@ -1,10 +1,10 @@
 <?php
 
-namespace Sanxiapay\Supports;
+namespace tools\Supports;
 
-use Sanxiapay\Exceptions\InvalidConfigException;
-use Sanxiapay\Exceptions\InvalidSignException;
-use Sanxiapay\Supports\Traits\HttpRequest;
+use tools\Exceptions\InvalidConfigException;
+use tools\Exceptions\InvalidSignException;
+use tools\Supports\Traits\HttpRequest;
 
 class Support
 {

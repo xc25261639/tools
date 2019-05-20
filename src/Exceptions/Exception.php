@@ -1,6 +1,6 @@
 <?php
 
-namespace Sanxiapay\Exceptions;
+namespace tools\Exceptions;
 
 class Exception extends \Exception
 {

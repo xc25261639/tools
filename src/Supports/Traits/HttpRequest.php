@@ -1,6 +1,6 @@
 <?php
 
-namespace Sanxiapay\Supports\Traits;
+namespace tools\Supports\Traits;
 
 use GuzzleHttp\Client;
 use Psr\Http\Message\ResponseInterface;

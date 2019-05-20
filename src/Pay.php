@@ -1,8 +1,8 @@
 <?php
 
-namespace Sanxiapay;
+namespace tools;
 
-use Sanxiapay\Supports\Support;
+use tools\Supports\Support;
 
 /**
  * php 三峡付支付扩展包
