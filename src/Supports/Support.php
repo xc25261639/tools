@@ -43,12 +43,35 @@ class Support
     public static function request_api(array $data, array $config, $suffix_url = '')
     {
         $data = array_filter($data, function ($value) {
-            return ($value == '' || is_null($value)) ? false : true;
+            return ($value == null && $value !== 0) ? false : true;
         });
+        if ($suffix_url == 'wechatPaymentApi') {
+            $partner = $data['partner'];
+            unset($data['partner']);
+        }
         //报文加密
         $str = base64_encode(openssl_encrypt(json_encode($data), 'AES-256-ECB', $config['aes_key'], OPENSSL_RAW_DATA));
+        if (in_array($suffix_url,['platTransDetail','wechatPaymentApi'])) {
+            $str = bin2hex($str); //转16进制
+            if ($suffix_url == 'wechatPaymentApi') {
+                //组装参数
+                $params = [
+                    'partner' => $partner,
+                    'orderInfo' => $str,
+                ];
+                //发起预支付请求
+                $result = self::service_post(json_encode($params),self::get_url($config['mode'],$suffix_url),20,'payment');
+                //解密
+                $result = hex2bin($result);
+                $result = openssl_decrypt(base64_decode($result), 'AES-256-ECB', $config['aes_key'], OPENSSL_RAW_DATA);
+                return $result;
+            }
+        }
         //发起请求
-        $result = self::get_instance()->post(self::get_url($config['mode'],$suffix_url), $str);
+        $result = self::service_post(urlencode($str),self::get_url($config['mode'],$suffix_url),20,'data');
+        if ($suffix_url == 'pay') {
+           return $result;
+        }
         //报文解密
         $result = openssl_decrypt(base64_decode($result), 'AES-256-ECB', $config['aes_key'], OPENSSL_RAW_DATA);
         //解析结果
@@ -57,8 +80,35 @@ class Support
         if (self::verify_sign($result['data'], $config['public_key'], $result['sign'])) {
             return $result;
         }
-
         throw new InvalidSignException("Sign Verify FAILED", $result);
+    }
+
+    public static function service_post($data,$url,$sec,$trade_type)
+    {
+
+        $postdata = $trade_type."=".$data;
+        try {
+            $ch = curl_init();
+            curl_setopt($ch, CURLOPT_TIMEOUT, $sec);
+            curl_setopt($ch, CURLOPT_POST, TRUE);
+            curl_setopt($ch, CURLOPT_URL, $url);
+            curl_setopt($ch, CURLOPT_POSTFIELDS, $postdata);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER,TRUE);
+            curl_setopt($ch, CURLOPT_SSL_VERIFYHOST,FALSE);
+            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
+            
+            $res = curl_exec($ch);
+            if($res)
+            {
+                curl_close($ch);
+                return $res;    
+            } else {
+                echo "CURL Error:".curl_error($ch);
+                curl_close($ch);
+            }
+        } catch(Exception $e){
+            return $e->getMessage();
+        }
     }
 
     /**
@@ -75,9 +125,8 @@ class Support
     public static function verify_sign(array $data, $public_key = null, $sign = null)
     {
         $data = array_filter($data, function ($value) {
-            return ($value == '' || is_null($value)) ? false : true;
+            return ($value == null && $value !== 0) ? false : true;
         });
-        
         if (is_null($public_key)) {
             throw new InvalidConfigException('Missing Config -- [ali_public_key]');
         }

@@ -57,9 +57,9 @@ class Pay
     public function create_gbmember(array $data)
     {
         $this->params['service'] = 'creategbmember_service';
+        $data['platid'] = $this->params['partner'];
         $this->params['data'] = $data;
         $this->params['sign'] = Support::generate_sign($this->params['data'], $this->config['private_key']);
-
         return Support::request_api($this->params, $this->config, 'CreateGBMemberServlet');
     }
 
@@ -89,6 +89,8 @@ class Pay
     public function get_token(array $data)
     {
         $this->params['service'] = 'get_token';
+        $this->params['partner'] = $data['partner'];
+        unset($data['partner']);
         $this->params['data'] = $data;
         $this->params['sign'] = Support::generate_sign($this->params['data'], $this->config['private_key']);
         return Support::request_api($this->params, $this->config, 'getPayToken');
@@ -104,9 +106,10 @@ class Pay
     public function pay(array $data)
     {
         $this->params['service'] = 'pay_service';
+        $this->params['partner'] = $data['partner'];
+        unset($data['partner']);
         $this->params['data'] = $data;
         $this->params['sign'] = Support::generate_sign($this->params['data'], $this->config['private_key']);
-
         return Support::request_api($this->params, $this->config, 'pay');
     }
 
@@ -119,11 +122,7 @@ class Pay
      */
     public function wechat_payment_api(array $data)
     {
-        $this->params['service'] = 'wechat_payment_api';
-        $this->params['data'] = $data;
-        $this->params['sign'] = Support::generate_sign($this->params['data'], $this->config['private_key']);
-
-        return Support::request_api($this->params, $this->config, 'wechatPaymentApi');
+        return Support::request_api($data, $this->config, 'wechatPaymentApi');
     }
 
     /**
@@ -168,9 +167,9 @@ class Pay
     public function trans_detail(array $data)
     {
         $this->params['service'] = 'query_plat_trans_detail';
+        $data['platid'] = $this->params['partner'];
         $this->params['data'] = $data;
         $this->params['sign'] = Support::generate_sign($this->params['data'], $this->config['private_key']);
-
         return Support::request_api($this->params, $this->config, 'platTransDetail');
     }
 
