@@ -183,6 +183,8 @@ class Pay
     public function order_detail(array $data)
     {
         $this->params['service'] = 'query_order_service';
+        $this->params['partner'] = $data['partner'];
+        unset($data['partner']);
         $this->params['data'] = $data;
         $this->params['sign'] = Support::generate_sign($this->params['data'], $this->config['private_key']);
 
@@ -216,9 +218,10 @@ class Pay
     public function account_download(array $data)
     {
         $this->params['service'] = 'account_download_service';
+        $this->params['partner'] = $data['partner'];
+        unset($data['partner']);
         $this->params['data'] = $data;
         $this->params['sign'] = Support::generate_sign($this->params['data'], $this->config['private_key']);
-
         return Support::request_api($this->params, $this->config, 'account_download');
     }
 }

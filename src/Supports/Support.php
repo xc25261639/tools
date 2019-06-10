@@ -76,6 +76,9 @@ class Support
         $result = openssl_decrypt(base64_decode($result), 'AES-256-ECB', $config['aes_key'], OPENSSL_RAW_DATA);
         //解析结果
         $result = json_decode($result,true);
+        if ($suffix_url == 'account_download') {
+           return $result;
+        }
         //验证签名
         if (self::verify_sign($result['data'], $config['public_key'], $result['sign'])) {
             return $result;
@@ -101,7 +104,7 @@ class Support
             if($res)
             {
                 curl_close($ch);
-                return $res;    
+                return $res;
             } else {
                 echo "CURL Error:".curl_error($ch);
                 curl_close($ch);
