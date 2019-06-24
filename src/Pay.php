@@ -151,9 +151,9 @@ class Pay
     public function member_balance(array $data)
     {
         $this->params['service'] = 'query_member_balance';
+        $data['platid'] = $this->params['partner'];
         $this->params['data'] = $data;
         $this->params['sign'] = Support::generate_sign($this->params['data'], $this->config['private_key']);
-
         return Support::request_api($this->params, $this->config, 'memPlatAccBal');
     }
 
