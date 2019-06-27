@@ -64,7 +64,7 @@ class Support
                 //解密
                 $result = hex2bin($result);
                 $result = openssl_decrypt(base64_decode($result), 'AES-256-ECB', $config['aes_key'], OPENSSL_RAW_DATA);
-                return $result;
+                return json_decode($result);
             }
         }
         //发起请求
@@ -99,7 +99,7 @@ class Support
             curl_setopt($ch, CURLOPT_RETURNTRANSFER,TRUE);
             curl_setopt($ch, CURLOPT_SSL_VERIFYHOST,FALSE);
             curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
-            
+
             $res = curl_exec($ch);
             if($res)
             {
