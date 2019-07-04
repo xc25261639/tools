@@ -4,6 +4,7 @@ namespace tools\Supports;
 use tools\Supports\IcbcConstants;
 use tools\Supports\IcbcCa;
 use tools\Supports\RSA;
+use tools\Exceptions\Exception;
 
 class IcbcSignature{
 	public static function sign($strToSign, $signType, $privateKey, $charset,$password){

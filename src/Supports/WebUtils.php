@@ -2,6 +2,7 @@
 namespace tools\Supports;
 
 use tools\Supports\IcbcConstants;
+use tools\Exceptions\Exception;
 
 class WebUtils{
    private static $version = "v2_20170324";
@@ -57,7 +58,7 @@ class WebUtils{
 	    curl_close($ch);
 
 	    if($resinfo["http_code"] != 200){
-	    	throw new Exception("response status code is not valid. status code: ".$resinfo["http_code"]);
+	    	throw new Exception("响应状态代码无效. status code: ".$resinfo["http_code"]);
 	    }
 		return $response;
    }

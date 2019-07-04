@@ -1,5 +1,6 @@
 <?php
 namespace tools\Supports;
+use tools\Exceptions\Exception;
 
 class IcbcCa{
 	public static function sign($content,$privatekey,$password){

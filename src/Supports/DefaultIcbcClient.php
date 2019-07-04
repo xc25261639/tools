@@ -6,6 +6,7 @@ use tools\Supports\IcbcConstants;
 use tools\Supports\IcbcSignature;
 use tools\Supports\WebUtils;
 use tools\Supports\IcbcEncrypt;
+use tools\Exceptions\Exception;
 
 class DefaultIcbcClient{
 	public $appId;
@@ -64,14 +65,12 @@ class DefaultIcbcClient{
 		}else{
 			throw new Exception("Only support GET or POST http method!");
 		}
-//print_r($respStr);die;
 		//增加了对传回报文中含有中文字符以及反斜杠的转换(json_encode(str,JSON_UNESCAPED_UNICODE(240)+JSON_UNESCAPED_SLASHES(80)=320))
 		$respBizContentStr = json_encode(json_decode($respStr,true)[IcbcConstants::$RESPONSE_BIZ_CONTENT],320);
         $sign = json_decode($respStr,true)[IcbcConstants::$SIGN];
 		//解析响应
 		$v = new IcbcSignature;
-		$passed = $v->verify($respBizContentStr, IcbcConstants::$SIGN_TYPE_RSA, $this->icbcPulicKey, $this->charset, $sign);
-		print_r($passed);die;
+		$passed = $v->verify($respBizContentStr, IcbcConstants::$SIGN_TYPE_RSA, $this->icbcPulicKey, $this->charset, $sign, $this->password);
 
 		if(!$passed){
 			throw new Exception("icbc sign verify not passed!");

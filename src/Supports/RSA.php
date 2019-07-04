@@ -2,6 +2,7 @@
 namespace tools\Supports;
 
 use tools\Supports\IcbcConstants;
+use tools\Exceptions\Exception;
 
 class RSA{
 	public static function sign($content,$privateKey,$algorithm){

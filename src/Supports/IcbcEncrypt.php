@@ -4,6 +4,7 @@ namespace tools\Supports;
 
 use tools\Supports\AES;
 use tools\Supports\IcbcConstants;
+use tools\Exceptions\Exception;
 
 class IcbcEncrypt{
 	public static function encryptContent($content, $encryptType, $encryptKey, $charset){
