@@ -48,13 +48,14 @@ class IcbcPay
         $this->params['serviceUrl'] = self::get_url($this->config['mode'],'cppayapply');
         $this->params['biz_content'] = array(//业务数据,用数组类型array
                                         "agreeCode"=>"0310000205060220001700000000030008",
-                                        "partnerSeq"=>"201907031119",
+                                        "partnerSeq"=>"201907051119",
                                         "payChannel"=>"1",
                                         "internationalFlag"=>"1",
-                                        "payMode"=>"1",
+                                        "payMode"=>"2",
+                                        "reservDirect"=>"1",
                                         "payEntitys"=>"10000000000000000000",
                                         "asynFlag"=>"0",
-                                        "orderCode"=>"001",
+                                        "orderCode"=>"1001",
                                         "orderAmount"=>"100",
                                         "orderCurr"=>"1",
                                         "sumPayamt"=>"100",
@@ -77,6 +78,42 @@ class IcbcPay
                                             "goodsUnit"=>"kg",
                                             "goodsAmt"=>"100",
                                         ))
+                                    );
+        $client = new DefaultIcbcClient($this->config['app_id'],//APP的编号,应用在API开放平台注册时生成
+            $this->config['private_key'],
+            IcbcConstants::$SIGN_TYPE_RSA,//签名类型，’CA’-工行颁发的证书认证;’RSA’表示RSAWithSha1;’RSA2’表示RSAWithSha256;缺省为RSA
+            '',//字符集，仅支持UTF-8,可填空‘’
+            '',//请求参数格式，仅支持json，可填空‘’
+            $this->config['public_key'],//网关公钥，必填
+            '',//AES加密密钥，缺省为空‘’
+            '',//加密类型，当前仅支持AES加密，需要按照接口类型是否需要加密来设置，缺省为空‘’
+            '',//当签名类型为CA时，通过该字段上送证书公钥，缺省为空
+            '');//当签名类型为CA时，通过该字段上送证书密码，缺省为空
+        $resp = $client->execute($this->params,$this->params['msg_id'],''); //执行调用
+        return json_decode($resp,true);
+    }
+
+    /**
+     * cppreservationpay 解保留支付服务
+     *
+     * @author xiachao <25261639@qq.com>
+     *
+     * @param array $data
+     */
+    public function cppreservationpay(array $data)
+    {
+        $this->params['serviceUrl'] = self::get_url($this->config['mode'],'cppreservationpay');
+        $this->params['biz_content'] = array(//业务数据,用数组类型array
+                                        "agreeCode"=>"0310000205060220001700000000030008",
+                                        "orderCode"=>"1001",
+                                        "partnerSeq"=>"201907051120",
+                                        "partnerSeqOrigin"=>"201907051119",
+                                        "payAmount"=>"50",
+                                        "orderCurr"=>"1",
+                                        "payeeSysflag"=>"1",
+                                        "payeeAccno"=>"3100020419200318181",//收款人账号
+                                        "payeeCompanyName"=>"寓赏渝肥雪控磁雪析喜吸伍野该挥傻",//收款人户名
+                                        'submitTime'=>'20190702152255',
                                     );
         $client = new DefaultIcbcClient($this->config['app_id'],//APP的编号,应用在API开放平台注册时生成
             $this->config['private_key'],
@@ -122,7 +159,7 @@ class IcbcPay
     }
 
     /**
-     * cporderclose 支付申请查询接口
+     * cporderclose 支付申请关闭服务
      *
      * @author xiachao <25261639@qq.com>
      *

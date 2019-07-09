@@ -224,4 +224,20 @@ class Pay
         $this->params['sign'] = Support::generate_sign($this->params['data'], $this->config['private_key']);
         return Support::request_api($this->params, $this->config, 'account_download');
     }
+
+    /**
+     * authentication 银联四要素鉴权接口
+     *
+     * @author xiachao <25261639@qq.com>
+     *
+     * @param array $data
+     */
+    public function authentication(array $data)
+    {
+        $this->params['service'] = 'union_4factor_service';
+        $this->params['service_version'] = '1.1';
+        $this->params['data'] = $data;
+        $this->params['sign'] = Support::generate_sign($this->params['data'], $this->config['private_key']);
+        return Support::request_api($this->params, $this->config, 'union_4factor_service');
+    }
 }
