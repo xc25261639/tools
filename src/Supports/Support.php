@@ -76,7 +76,7 @@ class Support
         $result = openssl_decrypt(base64_decode($result), 'AES-256-ECB', $config['aes_key'], OPENSSL_RAW_DATA);
         //解析结果
         $result = json_decode($result,true);
-        if (in_array($suffix_url,['memPlatAccBal','account_download'])) {
+        if (in_array($suffix_url,['memPlatAccBal','account_download','getPayToken'])) {
            return $result;
         }
         //验证签名
