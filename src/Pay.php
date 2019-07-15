@@ -238,6 +238,37 @@ class Pay
         $this->params['service_version'] = '1.1';
         $this->params['data'] = $data;
         $this->params['sign'] = Support::generate_sign($this->params['data'], $this->config['private_key']);
-        return Support::request_api($this->params, $this->config, 'union_4factor_service');
+        return Support::request_api($this->params, $this->config, 'checkUnion4Factor');
     }
+
+    /**
+     * custfee 平台子商户手续费设定接口
+     *
+     * @author xiachao <25261639@qq.com>
+     *
+     * @param array $data
+     */
+    public function custfee(array $data)
+    {
+        $this->params['service'] = 'custfee_service';
+        $this->params['data'] = $data;
+        $this->params['sign'] = Support::generate_sign($this->params['data'], $this->config['private_key']);
+        return Support::request_api($this->params, $this->config, 'custFeeSet');
+    }
+
+    /**
+     * per_receipt 回单调用接口
+     *
+     * @author xiachao <25261639@qq.com>
+     *
+     * @param array $data
+     */
+    public function per_receipt(array $data)
+    {
+        $this->params['service'] = 'per_receipt_service';
+        $this->params['data'] = $data;
+        $this->params['sign'] = Support::generate_sign($this->params['data'], $this->config['private_key']);
+        return Support::request_api($this->params, $this->config, 'custfee_service');
+    }
+
 }

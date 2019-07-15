@@ -48,35 +48,35 @@ class IcbcPay
         $this->params['serviceUrl'] = self::get_url($this->config['mode'],'cppayapply');
         $this->params['biz_content'] = array(//业务数据,用数组类型array
                                         "agreeCode"=>"0310000205060220001700000000030008",
-                                        "partnerSeq"=>"201907051119",
+                                        "partnerSeq"=>"201907151051",
                                         "payChannel"=>"1",
                                         "internationalFlag"=>"1",
                                         "payMode"=>"2",
-                                        "reservDirect"=>"1",
+                                        "reservDirect"=>"2",
                                         "payEntitys"=>"10000000000000000000",
                                         "asynFlag"=>"0",
-                                        "orderCode"=>"1001",
-                                        "orderAmount"=>"100",
+                                        "orderCode"=>"1004",
+                                        "orderAmount"=>"300",//订单金额（单位：分）
                                         "orderCurr"=>"1",
-                                        "sumPayamt"=>"100",
+                                        "sumPayamt"=>"300",//本次汇总支付金额（单位：分）
                                         "orderRemark"=>"666888",
-                                        "submitTime"=>"20190702152255",
+                                        "submitTime"=>"20190731152255",
                                         'payMemno'=>'3',
                                         "payeeList" => array(array(//收方商户信息列表,用数组类型array
-                                            "mallCode"=>"0310000205060220001700000000030008",//收方商户号
-                                            "mallName"=>"三果云",//商户名称
-                                            "payeeCompanyName"=>"寓赏渝肥雪控磁雪析喜吸伍野该挥傻",//收款人户名
+                                            "mallCode"=>"82",//收方商户号（平台的卖家id）
+                                            "mallName"=>"重庆西云实业有限责任公司",//商户名称
+                                            "payeeCompanyName"=>"寓赏也瘸灭设谨蜇野该挥傻",//收款人户名
                                             "payeeSysflag"=>"1",//1-境内工行，2-境内他行，3-境外
-                                            "payeeAccno"=>"3100020419200318181",//收款人账号
-                                            "payAmount"=>"100",//收款金额（单位：分）
+                                            "payeeAccno"=>"3100210919000065010",//收款人账号
+                                            "payAmount"=>"300",//收款金额（单位：分）
                                         )),
                                         "goodsList" => array(array(//商品信息列表,用数组类型array
-                                            "goodsSubId"=>"5",
+                                            "goodsSubId"=>"621",
                                             "goodsName"=>"E企付发起支付测试1",
-                                            "payeeCompanyName"=>"寓赏渝肥雪控磁雪析喜吸伍野该挥傻",
-                                            "goodsNumber"=>"2",
+                                            "payeeCompanyName"=>"寓赏也瘸灭设谨蜇野该挥傻",
+                                            "goodsNumber"=>"1",
                                             "goodsUnit"=>"kg",
-                                            "goodsAmt"=>"100",
+                                            "goodsAmt"=>"300",
                                         ))
                                     );
         $client = new DefaultIcbcClient($this->config['app_id'],//APP的编号,应用在API开放平台注册时生成
@@ -105,15 +105,49 @@ class IcbcPay
         $this->params['serviceUrl'] = self::get_url($this->config['mode'],'cppreservationpay');
         $this->params['biz_content'] = array(//业务数据,用数组类型array
                                         "agreeCode"=>"0310000205060220001700000000030008",
-                                        "orderCode"=>"1001",
-                                        "partnerSeq"=>"201907051120",
-                                        "partnerSeqOrigin"=>"201907051119",
-                                        "payAmount"=>"50",
+                                        "orderCode"=>"1004",
+                                        "partnerSeq"=>"201907151052",
+                                        "partnerSeqOrigin"=>"201907151051",
+                                        "payAmount"=>"200",
                                         "orderCurr"=>"1",
                                         "payeeSysflag"=>"1",
-                                        "payeeAccno"=>"3100020419200318181",//收款人账号
-                                        "payeeCompanyName"=>"寓赏渝肥雪控磁雪析喜吸伍野该挥傻",//收款人户名
-                                        'submitTime'=>'20190702152255',
+                                        "payeeAccno"=>"3100210919000065010",//收款人账号
+                                        "payeeCompanyName"=>"寓赏也瘸灭设谨蜇野该挥傻",//收款人户名
+                                        'submitTime'=>'20190731152255',
+                                    );
+        $client = new DefaultIcbcClient($this->config['app_id'],//APP的编号,应用在API开放平台注册时生成
+            $this->config['private_key'],
+            IcbcConstants::$SIGN_TYPE_RSA,//签名类型，’CA’-工行颁发的证书认证;’RSA’表示RSAWithSha1;’RSA2’表示RSAWithSha256;缺省为RSA
+            '',//字符集，仅支持UTF-8,可填空‘’
+            '',//请求参数格式，仅支持json，可填空‘’
+            $this->config['public_key'],//网关公钥，必填
+            '',//AES加密密钥，缺省为空‘’
+            '',//加密类型，当前仅支持AES加密，需要按照接口类型是否需要加密来设置，缺省为空‘’
+            '',//当签名类型为CA时，通过该字段上送证书公钥，缺省为空
+            '');//当签名类型为CA时，通过该字段上送证书密码，缺省为空
+        $resp = $client->execute($this->params,$this->params['msg_id'],''); //执行调用
+        return json_decode($resp,true);
+    }
+
+    /**
+     * cppreservationcancel 解保留撤销服务
+     *
+     * @author xiachao <25261639@qq.com>
+     *
+     * @param array $data
+     */
+    public function cppreservationcancel(array $data)
+    {
+        $this->params['serviceUrl'] = self::get_url($this->config['mode'],'cppreservationcancel');
+        $this->params['biz_content'] = array(//业务数据,用数组类型array
+                                        "agreeCode"=>"0310000205060220001700000000030008",
+                                        "orderCode"=>"1004",
+                                        "partnerSeq"=>"201907151053",
+                                        "partnerSeqOrigin"=>"201907151052",//原交易流水号（原保留支付的交易流水号）
+                                        "payAmount"=>"200",
+                                        "orderCurr"=>"1",
+                                        'submitTime'=>'20190731152255',
+                                        "orderRemark"=>"解保留撤销服务",//订单备注
                                     );
         $client = new DefaultIcbcClient($this->config['app_id'],//APP的编号,应用在API开放平台注册时生成
             $this->config['private_key'],
