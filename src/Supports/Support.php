@@ -51,7 +51,7 @@ class Support
         }
         //报文加密
         $str = base64_encode(openssl_encrypt(json_encode($data), 'AES-256-ECB', $config['aes_key'], OPENSSL_RAW_DATA));
-        if (in_array($suffix_url,['platTransDetail','wechatPaymentApi'])) {
+        if (in_array($suffix_url,['platTransDetail','wechatPaymentApi','CustAccTransServlet'])) {
             $str = bin2hex($str); //转16进制
             if ($suffix_url == 'wechatPaymentApi') {
                 //组装参数
@@ -64,6 +64,9 @@ class Support
                 //解密
                 $result = hex2bin($result);
                 $result = openssl_decrypt(base64_decode($result), 'AES-256-ECB', $config['aes_key'], OPENSSL_RAW_DATA);
+                if ($result === false) {
+                    throw new InvalidSignException("Decrypt FAILED", $result);
+                }
                 return json_decode($result);
             }
         }
@@ -72,8 +75,20 @@ class Support
         if ($suffix_url == 'pay') {
            return $result;
         }
+        if ($suffix_url == 'CustAccTransServlet') {
+            //解密
+            $result = hex2bin($result);
+            $result = openssl_decrypt(base64_decode($result), 'AES-256-ECB', $config['aes_key'], OPENSSL_RAW_DATA);
+            if ($result === false) {
+                throw new InvalidSignException("Decrypt FAILED", $result);
+            }
+            return json_decode($result);
+        }
         //报文解密
         $result = openssl_decrypt(base64_decode($result), 'AES-256-ECB', $config['aes_key'], OPENSSL_RAW_DATA);
+        if ($result === false) {
+            throw new InvalidSignException("Decrypt FAILED", $result);
+        }
         //解析结果
         $result = json_decode($result,true);
         if (in_array($suffix_url,['memPlatAccBal','account_download','getPayToken'])) {

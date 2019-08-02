@@ -106,6 +106,7 @@ class Pay
     public function pay(array $data)
     {
         $this->params['service'] = 'pay_service';
+        $this->params['service_version'] = '1.1';
         $this->params['partner'] = $data['partner'];
         unset($data['partner']);
         $this->params['data'] = $data;
@@ -189,6 +190,23 @@ class Pay
         $this->params['sign'] = Support::generate_sign($this->params['data'], $this->config['private_key']);
 
         return Support::request_api($this->params, $this->config, 'query_order');
+    }
+
+    /**
+     * per_partner 分账查询接口
+     *
+     * @author liyong <458878932@qq.com>
+     *
+     * @param array $data
+     */
+    public function per_partner(array $data)
+    {
+        $this->params['service'] = 'per_partner_service';
+        $this->params['service_version'] = '1.1';
+        $this->params['data'] = $data;
+        $this->params['sign'] = Support::generate_sign($this->params['data'], $this->config['private_key']);
+
+        return Support::request_api($this->params, $this->config, 'CustAccTransServlet');
     }
 
     /**
