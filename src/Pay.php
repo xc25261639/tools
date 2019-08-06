@@ -220,6 +220,8 @@ class Pay
     {
         $this->params['service_version'] = '1.1';
         $this->params['service'] = 'unifiedorder_service';
+        $this->params['partner'] = $data['partner'];
+        unset($data['partner']);
         $this->params['data'] = $data;
         $this->params['sign'] = Support::generate_sign($this->params['data'], $this->config['private_key']);
 
