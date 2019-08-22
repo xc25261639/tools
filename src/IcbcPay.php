@@ -67,7 +67,13 @@ class IcbcPay
                                             "payeeCompanyName"=>"寓赏也瘸灭设谨蜇野该挥傻",//收款人户名
                                             "payeeSysflag"=>"1",//1-境内工行，2-境内他行，3-境外
                                             "payeeAccno"=>"3100210919000065010",//收款人账号
-                                            "payAmount"=>"300",//收款金额（单位：分）
+                                            "payAmount"=>"200",//收款金额（单位：分）
+                                        ),array(
+                                            "mallName"=>"重庆水果实业有限责任公司",//商户名称
+                                            "payeeCompanyName"=>"寓赏瞭爸邀摘灌野该挥傻 ",//收款人户名
+                                            "payeeSysflag"=>"1",//1-境内工行，2-境内他行，3-境外
+                                            "payeeAccno"=>"3100020419200318181",//收款人账号
+                                            "payAmount"=>"100",//收款金额（单位：分）
                                         )),
                                         "goodsList" => array(array(//商品信息列表,用数组类型array
                                             "goodsSubId"=>"621",
