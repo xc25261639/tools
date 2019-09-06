@@ -60,7 +60,7 @@ class Support
                     'orderInfo' => $str,
                 ];
                 //发起预支付请求
-                $result = self::service_post(json_encode($params),self::get_url($config['mode'],$suffix_url),20,'payment');
+                $result = self::service_post(json_encode($params),self::get_url($config['mode'],$suffix_url),60,'payment');
                 //解密
                 $result = hex2bin($result);
                 $result = openssl_decrypt(base64_decode($result), 'AES-256-ECB', $config['aes_key'], OPENSSL_RAW_DATA);
@@ -71,7 +71,7 @@ class Support
             }
         }
         //发起请求
-        $result = self::service_post(urlencode($str),self::get_url($config['mode'],$suffix_url),20,'data');
+        $result = self::service_post(urlencode($str),self::get_url($config['mode'],$suffix_url),60,'data');
         if ($suffix_url == 'pay') {
            return $result;
         }
