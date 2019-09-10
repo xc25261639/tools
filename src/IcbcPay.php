@@ -23,7 +23,7 @@ class IcbcPay
             'format' => 'json',
             'charset' => 'UTF-8',
             //'sign_typ' => 'RSA',
-            'timestamp ' => '2019-07-02 12:55:43',//date("Y-m-d H:i:s",time())
+            'timestamp ' => '2019-09-25 12:55:43',//date("Y-m-d H:i:s",time())
         ];
     }
 
@@ -48,33 +48,35 @@ class IcbcPay
         $this->params['serviceUrl'] = self::get_url($this->config['mode'],'cppayapply');
         $this->params['biz_content'] = array(//业务数据,用数组类型array
                                         "agreeCode"=>"0310000205060220001700000000030008",
-                                        "partnerSeq"=>"201907160941",
+                                        "partnerSeq"=>"201909101759",
                                         "payChannel"=>"1",
                                         "internationalFlag"=>"1",
-                                        "payMode"=>"2",
-                                        "reservDirect"=>"2",
+                                        "payMode"=>"1",
+                                        //"reservDirect"=>"1",保留支付时上送，1-付方保留，2-收方保留(收方保留时，收款账号仅支持工行往来户)
                                         "payEntitys"=>"10000000000000000000",
                                         "asynFlag"=>"0",
                                         "orderCode"=>"1006",
                                         "orderAmount"=>"300",//订单金额（单位：分）
                                         "orderCurr"=>"1",
                                         "sumPayamt"=>"300",//本次汇总支付金额（单位：分）
-                                        "orderRemark"=>"666888",
-                                        "submitTime"=>"20190731152255",
+                                        "orderRemark"=>"666888",//订单备注，用于页面展示
+                                        "submitTime"=>"20190925172255",
                                         'payMemno'=>'3',
                                         "payeeList" => array(array(//收方商户信息列表,用数组类型array
+                                            "mallCode"=>"1",//收款商户在合作方平台注册的唯一编号
                                             "mallName"=>"重庆西云实业有限责任公司",//商户名称
                                             "payeeCompanyName"=>"寓赏也瘸灭设谨蜇野该挥傻",//收款人户名
                                             "payeeSysflag"=>"1",//1-境内工行，2-境内他行，3-境外
                                             "payeeAccno"=>"3100210919000065010",//收款人账号
-                                            "payAmount"=>"200",//收款金额（单位：分）
-                                        ),array(
+                                            "payAmount"=>"300",//收款金额（单位：分）
+                                        )/*,array(
+                                            "mallCode"=>"2",//收款商户在合作方平台注册的唯一编号
                                             "mallName"=>"重庆水果实业有限责任公司",//商户名称
                                             "payeeCompanyName"=>"寓赏瞭爸邀摘灌野该挥傻 ",//收款人户名
                                             "payeeSysflag"=>"1",//1-境内工行，2-境内他行，3-境外
                                             "payeeAccno"=>"3100020419200318181",//收款人账号
                                             "payAmount"=>"100",//收款金额（单位：分）
-                                        )),
+                                        )*/),
                                         "goodsList" => array(array(//商品信息列表,用数组类型array
                                             "goodsSubId"=>"621",
                                             "goodsName"=>"E企付发起支付测试1",
@@ -84,6 +86,7 @@ class IcbcPay
                                             "goodsAmt"=>"300",
                                         ))
                                     );
+        //var_dump($this->params['biz_content']['payeeList']);die;
         $client = new DefaultIcbcClient($this->config['app_id'],//APP的编号,应用在API开放平台注册时生成
             $this->config['private_key'],
             IcbcConstants::$SIGN_TYPE_RSA,//签名类型，’CA’-工行颁发的证书认证;’RSA’表示RSAWithSha1;’RSA2’表示RSAWithSha256;缺省为RSA
@@ -111,14 +114,14 @@ class IcbcPay
         $this->params['biz_content'] = array(//业务数据,用数组类型array
                                         "agreeCode"=>"0310000205060220001700000000030008",
                                         "orderCode"=>"1006",
-                                        "partnerSeq"=>"201907160942",
-                                        "partnerSeqOrigin"=>"201907160941",
+                                        "partnerSeq"=>"201909101752",
+                                        "partnerSeqOrigin"=>"201909101750",
                                         "payAmount"=>"200",
                                         "orderCurr"=>"1",
                                         "payeeSysflag"=>"1",
                                         "payeeAccno"=>"3100210919000065010",//收款人账号
                                         "payeeCompanyName"=>"寓赏也瘸灭设谨蜇野该挥傻",//收款人户名
-                                        'submitTime'=>'20190731152255',
+                                        'submitTime'=>'20190925182255',
                                     );
         $client = new DefaultIcbcClient($this->config['app_id'],//APP的编号,应用在API开放平台注册时生成
             $this->config['private_key'],
@@ -147,11 +150,11 @@ class IcbcPay
         $this->params['biz_content'] = array(//业务数据,用数组类型array
                                         "agreeCode"=>"0310000205060220001700000000030008",
                                         "orderCode"=>"1006",
-                                        "partnerSeq"=>"201907160943",
-                                        "partnerSeqOrigin"=>"201907160941",//原交易流水号（原保留支付的交易流水号）
+                                        "partnerSeq"=>"201909091751",
+                                        "partnerSeqOrigin"=>"201909091750",//原交易流水号（原保留支付的交易流水号）
                                         "payAmount"=>"100",
                                         "orderCurr"=>"1",
-                                        'submitTime'=>'20190731152255',
+                                        'submitTime'=>'20190925182255',
                                         "orderRemark"=>"解保留撤销服务",//订单备注
                                     );
         $client = new DefaultIcbcClient($this->config['app_id'],//APP的编号,应用在API开放平台注册时生成
