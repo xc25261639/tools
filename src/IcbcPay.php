@@ -48,7 +48,7 @@ class IcbcPay
         $this->params['serviceUrl'] = self::get_url($this->config['mode'],'cppayapply');
         $this->params['biz_content'] = array(//业务数据,用数组类型array
                                         "agreeCode"=>"0310000205060220001700000000030008",
-                                        "partnerSeq"=>"201909101759",
+                                        "partnerSeq"=>"201909111759",
                                         "payChannel"=>"1",
                                         "internationalFlag"=>"1",
                                         "payMode"=>"1",
