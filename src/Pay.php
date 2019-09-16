@@ -291,4 +291,34 @@ class Pay
         return Support::request_api($this->params, $this->config, 'custfee_service');
     }
 
+    /**
+     * get_openid Sdk获取openid
+     *
+     * @author xiachao <25261639@qq.com>
+     *
+     * @param array $data
+     */
+    public function get_openid(array $data)
+    {
+        $this->params['service'] = 'get_openid';
+        $this->params['data'] = $data;
+        $this->params['sign'] = Support::generate_sign($this->params['data'], $this->config['private_key']);
+        return Support::request_api($this->params, $this->config, 'creatopenid');
+    }
+
+    /**
+     * get_sdk_token SDK获取token
+     *
+     * @author xiachao <25261639@qq.com>
+     *
+     * @param array $data
+     */
+    public function get_sdk_token(array $data)
+    {
+        $this->params['service'] = 'get_sdk_token';
+        $this->params['data'] = $data;
+        $this->params['sign'] = Support::generate_sign($this->params['data'], $this->config['private_key']);
+        return Support::request_api($this->params, $this->config, 'getsdktoken');
+    }
+
 }
