@@ -23,7 +23,7 @@ class IcbcPay
             'format' => 'json',
             'charset' => 'UTF-8',
             //'sign_typ' => 'RSA',
-            'timestamp ' => '2019-09-25 12:55:43',//date("Y-m-d H:i:s",time())
+            'timestamp ' => '2019-09-30 12:55:43',//date("Y-m-d H:i:s",time())
         ];
     }
 
