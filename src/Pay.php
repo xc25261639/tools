@@ -219,7 +219,7 @@ class Pay
     public function unifiedorder(array $data)
     {
         $this->params['service_version'] = '1.1';
-        $this->params['service'] = 'unifiedorder_service';
+        $this->params['service'] = 'pay_service';
         $this->params['partner'] = $data['partner'];
         unset($data['partner']);
         $this->params['data'] = $data;
