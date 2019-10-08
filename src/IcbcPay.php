@@ -23,7 +23,7 @@ class IcbcPay
             'format' => 'json',
             'charset' => 'UTF-8',
             //'sign_typ' => 'RSA',
-            'timestamp ' => '2019-09-30 12:55:43',//date("Y-m-d H:i:s",time())
+            'timestamp ' => date("Y-m-d H:i:s",time()),//'2019-09-30 12:55:43',
         ];
     }
 
@@ -46,8 +46,8 @@ class IcbcPay
     public function cppayapply(array $data)
     {
         $this->params['serviceUrl'] = self::get_url($this->config['mode'],'cppayapply');
+        $this->params['callbackUrl'] = $this->config['notify_url'];
         $this->params['biz_content'] = $data;
-        //var_dump($this->params['biz_content']['payeeList']);die;
         $client = new DefaultIcbcClient($this->config['app_id'],//APP的编号,应用在API开放平台注册时生成
             $this->config['private_key'],
             IcbcConstants::$SIGN_TYPE_RSA,//签名类型，’CA’-工行颁发的证书认证;’RSA’表示RSAWithSha1;’RSA2’表示RSAWithSha256;缺省为RSA
