@@ -301,8 +301,8 @@ class Pay
     public function get_openid(array $data)
     {
         $this->params['service'] = 'get_openid';
-        $this->params['partner'] = $data['partner'];
-        unset($data['partner']);
+        /*$this->params['partner'] = $data['partner'];
+        unset($data['partner']);*/
         $this->params['data'] = $data;
         $this->params['sign'] = Support::generate_sign($this->params['data'], $this->config['private_key']);
         return Support::request_api($this->params, $this->config, 'creatopenid');
