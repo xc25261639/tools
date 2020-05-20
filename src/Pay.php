@@ -325,4 +325,16 @@ class Pay
         return Support::request_api($this->params, $this->config, 'getsdktoken');
     }
 
+    /**
+     * custPaymentApi 三峡付微信公众号支付
+     *
+     * @author xiachao <25261639@qq.com>
+     *
+     * @param array $data
+     */
+    public function cust_payment_api(array $data)
+    {
+        return Support::request_api($data, $this->config, 'custPaymentApi');
+    }
+
 }

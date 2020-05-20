@@ -45,20 +45,25 @@ class Support
         $data = array_filter($data, function ($value) {
             return ($value == null && $value !== 0) ? false : true;
         });
-        if ($suffix_url == 'wechatPaymentApi') {
+        if (in_array($suffix_url,['wechatPaymentApi','custPaymentApi'])) {
             $partner = $data['partner'];
             unset($data['partner']);
         }
         //报文加密
         $str = base64_encode(openssl_encrypt(json_encode($data), 'AES-256-ECB', $config['aes_key'], OPENSSL_RAW_DATA));
-        if (in_array($suffix_url,['platTransDetail','wechatPaymentApi','CustAccTransServlet'])) {
+        if (in_array($suffix_url,['platTransDetail','wechatPaymentApi','CustAccTransServlet','custPaymentApi'])) {
             $str = bin2hex($str); //转16进制
-            if ($suffix_url == 'wechatPaymentApi') {
+            if (in_array($suffix_url,['wechatPaymentApi','custPaymentApi'])) {
                 //组装参数
                 $params = [
                     'partner' => $partner,
                     'orderInfo' => $str,
                 ];
+                if ($suffix_url == 'custPaymentApi') {
+                    //组装请求地址并返回
+                    $url_data = self::get_url($config['mode'],$suffix_url).'?payment='.json_encode($params);
+                    return $url_data;
+                }
                 //发起预支付请求
                 $result = self::service_post(json_encode($params),self::get_url($config['mode'],$suffix_url),60,'payment');
                 //解密
@@ -217,7 +222,12 @@ class Support
         if ($mode == 'dev'){
             $url = 'http://222.178.75.14:8082/epaygate/';
         }
-
+        if ($suffix_url == 'custPaymentApi' && $mode == 'dev') {
+            return 'http://222.178.75.14:8082/emallapp/order/custPaymentApi.do';
+        }
+        if ($suffix_url == 'custPaymentApi' && $mode !== 'dev') {
+            return 'https://www.sanxiapay.com/emallapp/order/custPaymentApi.do?';
+        }
         return $url.$suffix_url.'.htm';
     }
 
