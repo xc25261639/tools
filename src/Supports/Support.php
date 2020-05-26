@@ -226,7 +226,7 @@ class Support
             return 'http://222.178.75.14:8082/emallapp/order/custPaymentApi.do';
         }
         if ($suffix_url == 'custPaymentApi' && $mode !== 'dev') {
-            return 'https://www.sanxiapay.com/emallapp/order/custPaymentApi.do?';
+            return 'https://www.sanxiapay.com/emallapp/order/custPaymentApi.do';
         }
         return $url.$suffix_url.'.htm';
     }
