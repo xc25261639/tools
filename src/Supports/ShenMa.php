@@ -46,10 +46,11 @@ class ShenMa
             throw new InvalidConfigException('request_api Missing -- [data]');
         }
         //发起请求
-        $result = self::service_post(self::get_url($config['mode']),$data,60);
-        if ($service == 'cashierPay') {
-            var_dump($result);die;
+        if ($service == 'cashierPay') {//如果是调用收银台，则组装支付链接
+            $url = self::get_url($config['mode']).'?'.json_encode($data);
+            return $url;
         }
+        $result = self::service_post(self::get_url($config['mode']),$data,60);
         $result = json_decode($result,true);
         if ($result['status'] == 'FAIL') {
             //var_dump($result);die;
