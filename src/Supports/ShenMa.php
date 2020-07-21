@@ -47,7 +47,16 @@ class ShenMa
         }
         //发起请求
         if ($service == 'cashierPay') {//如果是调用收银台，则组装支付链接
-            $url = self::get_url($config['mode']).'?'.json_encode($data);
+            $bizNo = $data['bizNo'];
+            $redirectUrl = urlencode($data['redirectUrl']);
+            $merchantOrderNo = $data['merchantOrderNo'];
+            $partnerId = $data['partnerId'];
+            $service = $data['service'];
+            $sign = $data['sign'];
+            $version = $data['version'];
+            $signType = $data['signType'];
+            $url = self::get_url($config['mode']).'?bizNo='.$bizNo.'&redirectUrl='.$redirectUrl.'&merchantOrderNo='.$merchantOrderNo
+                    .'&partnerId='.$partnerId.'&service='.$service.'&sign='.$sign.'&signType='.$signType.'&version='.$version;
             return $url;
         }
         $result = self::service_post(self::get_url($config['mode']),$data,60);
@@ -143,7 +152,7 @@ class ShenMa
     public static function get_sign_content(array $data, $verify = false, $secretKey = null)
     {
         if (is_null($secretKey)) {
-            throw new InvalidConfigException('Missing Config -- [secretKey]');
+            throw new InvalidConfigException('get_sign_content :Missing Config -- [secretKey]');
         }
 
         ksort($data);
