@@ -121,5 +121,20 @@ class ShenMaPay
         return ShenMa::request_api($merge_data, $this->config, 'cashierPay');
     }
 
+    /**
+     * refund 零售退款
+     *
+     * @author xiachao <25261639@qq.com>
+     *
+     * @param array $data
+     */
+    public function refund(array $data)
+    {   
+        $this->params['service'] = 'refund';
+        $merge_data = array_merge($this->params,$data);
+        $merge_data['sign'] = ShenMa::generate_sign($merge_data, $this->config['secretKey']);
+        return ShenMa::request_api($merge_data, $this->config, 'refund');
+    }
+
 
 }
