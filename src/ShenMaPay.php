@@ -45,38 +45,6 @@ class ShenMaPay
     }
 
     /**
-     * create_gbmember 个体商户注册
-     *
-     * @author xiachao <25261639@qq.com>
-     *
-     * @param array $data
-     */
-    public function create_gbmember(array $data)
-    {
-        $this->params['service'] = 'creategbmember_service';
-        $data['platid'] = $this->params['partner'];
-        $this->params['data'] = $data;
-        $this->params['sign'] = ShenMa::generate_sign($this->params['data'], $this->config['private_key']);
-        return ShenMa::request_api($this->params, $this->config, 'creategbmember_service');
-    }
-
-    /**
-     * create_indiv 个人商户注册
-     *
-     * @author xiachao <25261639@qq.com>
-     *
-     * @param array $data
-     */
-    public function create_indiv(array $data)
-    {
-        $this->params['service'] = 'Create_Indiv_Service';
-        $this->params['data'] = $data;
-        $this->params['sign'] = ShenMa::generate_sign($this->params['data'], $this->config['private_key']);
-
-        return ShenMa::request_api($this->params, $this->config, 'Create_Indiv_Service');
-    }
-
-    /**
      * payChannelList 支付渠道列表接口
      *
      * @author xiachao <25261639@qq.com>
@@ -122,6 +90,21 @@ class ShenMaPay
     }
 
     /**
+     * order_query 订单查询
+     *
+     * @author xiachao <25261639@qq.com>
+     *
+     * @param array $data
+     */
+    public function order_query(array $data)
+    {   
+        $this->params['service'] = 'orderQuery';
+        $merge_data = array_merge($this->params,$data);
+        $merge_data['sign'] = ShenMa::generate_sign($merge_data, $this->config['secretKey']);
+        return ShenMa::request_api($merge_data, $this->config, 'orderQuery');
+    }
+
+    /**
      * refund 零售退款
      *
      * @author xiachao <25261639@qq.com>
@@ -136,5 +119,124 @@ class ShenMaPay
         return ShenMa::request_api($merge_data, $this->config, 'refund');
     }
 
+    /**
+     * register_user 注册个人用户
+     *
+     * @author xiachao <25261639@qq.com>
+     *
+     * @param array $data
+     */
+    public function register_user(array $data)
+    {   
+        $this->params['service'] = 'registerUserAndValidate';
+        $merge_data = array_merge($this->params,$data);
+        $merge_data['sign'] = ShenMa::generate_sign($merge_data, $this->config['secretKey']);
+        return ShenMa::request_api($merge_data, $this->config, 'registerUserAndValidate');
+    }
+
+    /**
+     * register_enterprise_user 注册企业用户
+     *
+     * @author xiachao <25261639@qq.com>
+     *
+     * @param array $data
+     */
+    public function register_enterprise_user(array $data)
+    {   
+        $this->params['service'] = 'registerEnterpriseUserAndValidate';
+        $merge_data = array_merge($this->params,$data);
+        $merge_data['sign'] = ShenMa::generate_sign($merge_data, $this->config['secretKey']);
+        return ShenMa::request_api($merge_data, $this->config, 'registerEnterpriseUserAndValidate');
+    }
+
+    /**
+     * binding_bank_card 绑定银行卡
+     *
+     * @author xiachao <25261639@qq.com>
+     *
+     * @param array $data
+     */
+    public function binding_bank_card(array $data)
+    {   
+        $this->params['service'] = 'bindingBankCard';
+        $merge_data = array_merge($this->params,$data);
+        $merge_data['sign'] = ShenMa::generate_sign($merge_data, $this->config['secretKey']);
+        return ShenMa::request_api($merge_data, $this->config, 'bindingBankCard');
+    }
+
+    /**
+     * query_bank_card 查询绑定银行卡
+     *
+     * @author xiachao <25261639@qq.com>
+     *
+     * @param array $data
+     */
+    public function query_bank_card(array $data)
+    {   
+        $this->params['service'] = 'queryDefaultBankCard';
+        $merge_data = array_merge($this->params,$data);
+        $merge_data['sign'] = ShenMa::generate_sign($merge_data, $this->config['secretKey']);
+        return ShenMa::request_api($merge_data, $this->config, 'queryDefaultBankCard');
+    }
+
+    /**
+     * user_withdraw_amount 查询可提现余额
+     *
+     * @author xiachao <25261639@qq.com>
+     *
+     * @param array $data
+     */
+    public function user_withdraw_amount(array $data)
+    {   
+        $this->params['service'] = 'queryUserWithdrawAmount';
+        $merge_data = array_merge($this->params,$data);
+        $merge_data['sign'] = ShenMa::generate_sign($merge_data, $this->config['secretKey']);
+        return ShenMa::request_api($merge_data, $this->config, 'queryUserWithdrawAmount');
+    }
+
+    /**
+     * query_user_balance 查询用户账户余额
+     *
+     * @author xiachao <25261639@qq.com>
+     *
+     * @param array $data
+     */
+    public function query_user_balance(array $data)
+    {   
+        $this->params['service'] = 'queryUserBalance';
+        $merge_data = array_merge($this->params,$data);
+        $merge_data['sign'] = ShenMa::generate_sign($merge_data, $this->config['secretKey']);
+        return ShenMa::request_api($merge_data, $this->config, 'queryUserBalance');
+    }
+
+    /**
+     * immediate_withdraw 提现
+     *
+     * @author xiachao <25261639@qq.com>
+     *
+     * @param array $data
+     */
+    public function immediate_withdraw(array $data)
+    {   
+        $this->params['service'] = 'immediateWithdraw';
+        $merge_data = array_merge($this->params,$data);
+        $merge_data['sign'] = ShenMa::generate_sign($merge_data, $this->config['secretKey']);
+        return ShenMa::request_api($merge_data, $this->config, 'immediateWithdraw');
+    }
+
+    /**
+     * only_transfer 单笔转账
+     *
+     * @author xiachao <25261639@qq.com>
+     *
+     * @param array $data
+     */
+    public function only_transfer(array $data)
+    {   
+        $this->params['service'] = 'onlyTransfer';
+        $merge_data = array_merge($this->params,$data);
+        $merge_data['sign'] = ShenMa::generate_sign($merge_data, $this->config['secretKey']);
+        return ShenMa::request_api($merge_data, $this->config, 'onlyTransfer');
+    }
 
 }
