@@ -61,6 +61,7 @@ class ShenMa
         $result = self::service_post(self::get_url($config['mode']),$data,60);
         $result = json_decode($result,true);
         if ($result['status'] == 'FAIL' && !in_array($service,['registerUserAndValidate','registerEnterpriseUserAndValidate','bindingBankCard','queryUserWithdrawAmount'])) {
+            //var_dump($result);die;
             throw new InvalidSignException($service.$result['message']);
         }
         //验证签名
