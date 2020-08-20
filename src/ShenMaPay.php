@@ -71,6 +71,7 @@ class ShenMaPay
         $this->params['service'] = 'orderPay';
         $merge_data = array_merge($this->params,$data);
         $merge_data['sign'] = ShenMa::generate_sign($merge_data, $this->config['secretKey']);
+        //var_dump($merge_data);die;
         return ShenMa::request_api($merge_data, $this->config, 'orderPay');
     }
 
@@ -237,6 +238,51 @@ class ShenMaPay
         $merge_data = array_merge($this->params,$data);
         $merge_data['sign'] = ShenMa::generate_sign($merge_data, $this->config['secretKey']);
         return ShenMa::request_api($merge_data, $this->config, 'onlyTransfer');
+    }
+
+    /**
+     * upload_file 图片上传
+     *
+     * @author xiachao <25261639@qq.com>
+     *
+     * @param array $data
+     */
+    public function upload_file(array $data)
+    {   
+        $this->params['service'] = 'uploadFile';
+        $merge_data = array_merge($this->params,$data);
+        $merge_data['sign'] = ShenMa::generate_sign($merge_data, $this->config['secretKey']);
+        return ShenMa::request_api($merge_data, $this->config, 'uploadFile');
+    }
+
+    /**
+     * enterprise_open_account 企业会员进件
+     *
+     * @author xiachao <25261639@qq.com>
+     *
+     * @param array $data
+     */
+    public function enterprise_open_account(array $data)
+    {   
+        $this->params['service'] = 'enterpriseOpenAccount';
+        $merge_data = array_merge($this->params,$data);
+        $merge_data['sign'] = ShenMa::generate_sign($merge_data, $this->config['secretKey']);
+        return ShenMa::request_api($merge_data, $this->config, 'enterpriseOpenAccount');
+    }
+
+    /**
+     * query_open_account 查询开户结果
+     *
+     * @author xiachao <25261639@qq.com>
+     *
+     * @param array $data
+     */
+    public function query_open_account(array $data)
+    {   
+        $this->params['service'] = 'queryOpenAccount';
+        $merge_data = array_merge($this->params,$data);
+        $merge_data['sign'] = ShenMa::generate_sign($merge_data, $this->config['secretKey']);
+        return ShenMa::request_api($merge_data, $this->config, 'queryOpenAccount');
     }
 
 }
