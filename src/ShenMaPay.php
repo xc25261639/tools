@@ -226,6 +226,36 @@ class ShenMaPay
     }
 
     /**
+     * electronicReceiptCreate 下载电子回单
+     *
+     * @author xiachao <25261639@qq.com>
+     *
+     * @param array $data
+     */
+    public function electronic_receipt_create(array $data)
+    {   
+        $this->params['service'] = 'electronicReceiptCreate';
+        $merge_data = array_merge($this->params,$data);
+        $merge_data['sign'] = ShenMa::generate_sign($merge_data, $this->config['secretKey']);
+        return ShenMa::request_api($merge_data, $this->config, 'electronicReceiptCreate');
+    }
+
+    /**
+     * channel_ransfer 渠道转账
+     *
+     * @author xiachao <25261639@qq.com>
+     *
+     * @param array $data
+     */
+    public function channel_ransfer(array $data)
+    {   
+        $this->params['service'] = 'channelTransfer';
+        $merge_data = array_merge($this->params,$data);
+        $merge_data['sign'] = ShenMa::generate_sign($merge_data, $this->config['secretKey']);
+        return ShenMa::request_api($merge_data, $this->config, 'channelTransfer');
+    }
+
+    /**
      * only_transfer 单笔转账
      *
      * @author xiachao <25261639@qq.com>
