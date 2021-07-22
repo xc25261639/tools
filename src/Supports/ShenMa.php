@@ -64,6 +64,9 @@ class ShenMa
             throw new InvalidSignException($service.$result['message']);
         }*/
         //验证签名
+        if($service == 'electronicReceiptCreate'){
+            return $result;
+        }
         if (self::verify_sign($result, $config['secretKey'], $result['sign'])) {
             return $result;
         }
