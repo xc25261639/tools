@@ -64,9 +64,6 @@ class ShenMa
             throw new InvalidSignException($service.$result['message']);
         }*/
         //验证签名
-        if($service == 'electronicReceiptCreate'){
-            return $result;
-        }
         if (self::verify_sign($result, $config['secretKey'], $result['sign'])) {
             return $result;
         }
@@ -182,10 +179,7 @@ class ShenMa
      */
     private static function get_url($mode = '')
     {
-        $url = 'http://api.shenmapay.com/gateway.html';
-        if ($mode == 'dev'){
-            $url = 'http://testapi.shenmapay.com:81/gateway.html';
-        }
+        $url = 'http://openapi.ngrok.xinyebang.cn/gateway.html';
         return $url;
     }
 
