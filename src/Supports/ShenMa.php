@@ -66,7 +66,7 @@ class ShenMa
         if($service == 'electronicReceiptCreate'){
             return $result;
         }
-        //验证签名
+        //验证签名1
         if (self::verify_sign($result, $config['secretKey'], $result['sign'])) {
             return $result;
         }
