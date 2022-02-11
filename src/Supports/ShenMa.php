@@ -63,6 +63,9 @@ class ShenMa
         /*if ($result['status'] == 'FAIL' && !in_array($service,['registerUserAndValidate','registerEnterpriseUserAndValidate','bindingBankCard','queryUserWithdrawAmount','immediateWithdraw','onlyTransfer','enterpriseOpenAccount'])) {
             throw new InvalidSignException($service.$result['message']);
         }*/
+        if($service == 'electronicReceiptCreate'){
+            return $result;
+        }
         //验证签名
         if (self::verify_sign($result, $config['secretKey'], $result['sign'])) {
             return $result;
@@ -179,7 +182,8 @@ class ShenMa
      */
     private static function get_url($mode = '')
     {
-        $url = 'http://openapi.ngrok.xinyebang.cn/gateway.html';
+        //$url = 'http://openapi.ngrok.xinyebang.cn/gateway.html';//测试
+        $url = 'http://api.shenmapay.com/gateway.html';//正式
         return $url;
     }
 
