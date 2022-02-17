@@ -182,8 +182,8 @@ class ShenMa
      */
     private static function get_url($mode = '')
     {
-        //$url = 'http://openapi.ngrok.xinyebang.cn/gateway.html';//测试
-        $url = 'http://api.shenmapay.com/gateway.html';//正式
+        $url = 'http://openapi.ngrok.xinyebang.cn/gateway.html';//测试
+        //$url = 'http://api.shenmapay.com/gateway.html';//正式
         return $url;
     }
 
